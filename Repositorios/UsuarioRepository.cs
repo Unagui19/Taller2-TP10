@@ -26,6 +26,7 @@ namespace Taller2_TP10.Repositorios
                         var usuario = new Usuario();
                         usuario.Id = Convert.ToInt32(reader["id_usuario"]);
                         usuario.NombreDeUsuario = reader["nombre_de_usuario"].ToString();
+                        usuario.Rol = (Roles)Convert.ToInt32(reader["rol"]);
                         usuarios.Add(usuario);
                     }
                 }
@@ -36,12 +37,13 @@ namespace Taller2_TP10.Repositorios
 
         //         ● Crear un nuevo usuario. (recibe un objeto Usuario)
         public void CrearUsuario(Usuario usuario){
-            string queryString = $"INSERT INTO Usuario (nombre_de_usuario) VALUES (@nombre_de_usuario)"; // string on la consulta deseada
+            string queryString = $"INSERT INTO Usuario (nombre_de_usuario, rol) VALUES (@nombre_de_usuario, @rol)"; // string on la consulta deseada
             using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))//CREO LA VARIABLE DE CONEXION Y LA ESTABLEZCO
             {
                 connection.Open(); //ABRO LA CONEXION
                 var command = new SQLiteCommand(queryString, connection);//paso mi consulta y la conexion 
                     command.Parameters.Add(new SQLiteParameter("@nombre_de_usuario", usuario.NombreDeUsuario));
+                    command.Parameters.Add(new SQLiteParameter("@rol", usuario.Rol));
                     command.ExecuteNonQuery();//ejecutar la consulta sin que me devuelva un dato, solo se actualiza
                     connection.Close();   
             }
@@ -52,13 +54,14 @@ namespace Taller2_TP10.Repositorios
         public void ModificarUsuario(int idUsu,Usuario usuario){
             string queryString = $@"
             UPDATE Usuario 
-            SET nombre_de_usuario = @nombre_de_usuario 
+            SET nombre_de_usuario = @nombre_de_usuario, rol = @rol 
             WHERE id_usuario = {idUsu}"; // string on la consulta deseada
             using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))//CREO LA VARIABLE DE CONEXION Y LA ESTABLEZCO
             {
                 connection.Open(); //ABRO LA CONEXION
                 var command = new SQLiteCommand(queryString, connection);//paso mi consulta y la conexion 
                     command.Parameters.Add(new SQLiteParameter("@nombre_de_usuario", usuario.NombreDeUsuario));
+                    command.Parameters.Add(new SQLiteParameter("@rol", usuario.Rol));
                     command.ExecuteNonQuery();//ejecutar la consulta sin que me devuelva un dato, solo se actualiza
                     connection.Close();   
             }
@@ -95,6 +98,7 @@ namespace Taller2_TP10.Repositorios
                     {
                         usuario.Id = Convert.ToInt32(reader["id_usuario"]);
                         usuario.NombreDeUsuario = reader["nombre_de_usuario"].ToString();
+                        usuario.Rol = (Roles)Convert.ToInt32(reader["rol"]);
                     }
                     else
                     {
@@ -106,10 +110,6 @@ namespace Taller2_TP10.Repositorios
             }
             return usuario;
         }
-        
-
-
-
 
     }    
 }
