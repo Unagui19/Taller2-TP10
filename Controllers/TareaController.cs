@@ -1,7 +1,6 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Taller2_TP10.Models;
-using Taller2_TP10.ViewModels;
 using Taller2_TP10.Repositorios;
 
 namespace Taller2_TP10.Controllers;
@@ -17,44 +16,32 @@ public class TareaController : Controller
         _logger = logger;
     }
 
-//Listar Usuarios
+//Listar Tareas
     public IActionResult Index()
     {
-        if(!usuarioLogueado()){
-            return RedirectToRoute(new { controller = "Login", action = "Index" });
-        }
-        else
-        {
-            List<Tarea> tareas = repoTarea.ListarTareas();
-            var VModel = tareas.Select(tar => new IndexTareaViewModel(tar)).ToList();
-            return View(VModel);
-        }
-
+        return View(repoTarea.ListarTareas());
     }
 
-//Crear Usuario
+//Crear Tareas
     [HttpGet]
     public IActionResult CrearTarea(){
-        return View(new CrearTareaViewModel());
+        return View(new Tarea());
     }
 
     [HttpPost]
-    public IActionResult CrearTarea(CrearTareaViewModel nuevaTarea){
-        var tarea = new Tarea(nuevaTarea);
+    public IActionResult CrearTarea(Tarea tarea){
         repoTarea.CrearTarea(tarea);
         return RedirectToAction("Index");
     }
 
-//Modificar usuarios
+//Modificar tareas
     [HttpGet]
     public IActionResult ModificarTarea(int idTarea){
-        var VModel = new ModificarTareaViewModel(repoTarea.BuscarTareaPorId(idTarea));
-        return View(VModel);
+        return View(repoTarea.BuscarTareaPorId(idTarea));
     }
 
     [HttpPost]
-    public IActionResult ModificarTarea(ModificarTareaViewModel modTarea){
-        var tarea = new Tarea(modTarea);
+    public IActionResult ModificarTarea(Tarea tarea){
         repoTarea.ModificarTarea(tarea.Id, tarea);
         return RedirectToAction("Index");
     }
@@ -63,16 +50,5 @@ public class TareaController : Controller
     public IActionResult EliminarTarea(int idTarea){
         repoTarea.EliminarTarea(idTarea);
         return RedirectToAction("Index");
-    }
-
-    public bool usuarioLogueado(){
-       if (HttpContext.Session.IsAvailable)
-       {
-            return true;
-       } 
-       else
-       {
-            return false;
-       }
     }
 }

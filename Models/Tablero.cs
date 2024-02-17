@@ -1,5 +1,3 @@
-using Taller2_TP10.ViewModels;
-
 namespace Taller2_TP10.Models
 {
     public class Tablero
@@ -19,19 +17,6 @@ namespace Taller2_TP10.Models
             IdUsuarioPropietario =idUsuProp;
             Nombre = nombre;
             Descripcion = descrip;
-        }
-
-        public Tablero(CrearTableroViewModel tablero){
-            Id = tablero.Id;
-            IdUsuarioPropietario = tablero.IdUsuarioPropietario;
-            Nombre = tablero.Nombre;
-            Descripcion = tablero.Descripcion;
-        }
-        public Tablero(ModificarTableroViewModel tablero){
-            Id = tablero.Id;
-            IdUsuarioPropietario = tablero.IdUsuarioPropietario;
-            Nombre = tablero.Nombre;
-            Descripcion = tablero.Descripcion;
         }
     }   
 

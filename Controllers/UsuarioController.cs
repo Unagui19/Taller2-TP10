@@ -2,7 +2,6 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Taller2_TP10.Models;
 using Taller2_TP10.Repositorios;
-using Taller2_TP10.ViewModels;
 
 namespace Taller2_TP10.Controllers;
 
@@ -20,20 +19,17 @@ public class UsuarioController : Controller
 //Listar Usuarios
     public IActionResult Index()
     {
-        List<Usuario> usuarios = repoUsuario.ListarUsuarios();
-        var VModels = usuarios.Select(usu => new IndexUsuarioViewModel(usu)).ToList();
-        return View(VModels);
+        return View(repoUsuario.ListarUsuarios());
     }
 
 //Crear Usuario
     [HttpGet]
     public IActionResult CrearUsuario(){
-        return View(new CrearUsuarioViewModel());
+        return View(new Usuario());
     }
 
     [HttpPost]
-    public IActionResult CrearUsuario(CrearUsuarioViewModel nuevoUsu){
-        var usuario = new Usuario(nuevoUsu);
+    public IActionResult CrearUsuario(Usuario usuario){
         repoUsuario.CrearUsuario(usuario);
         return RedirectToAction("Index");
     }
@@ -41,13 +37,11 @@ public class UsuarioController : Controller
 //Modificar usuarios
     [HttpGet]
     public IActionResult ModificarUsuario(int idUsuario){
-        var VModel = new ModificarUsuarioViewModel(repoUsuario.BuscarUsuarioPorId(idUsuario));
-        return View(VModel);
+        return View(repoUsuario.BuscarUsuarioPorId(idUsuario));
     }
 
     [HttpPost]
-    public IActionResult ModificarUsuario(ModificarUsuarioViewModel modUsu){
-        var usuario = new Usuario(modUsu);
+    public IActionResult ModificarUsuario(Usuario usuario){
         repoUsuario.ModificarUsuario(usuario.Id, usuario);
         return RedirectToAction("Index");
     }
@@ -56,5 +50,4 @@ public class UsuarioController : Controller
         repoUsuario.EliminarUsuario(idUsuario);
         return RedirectToAction("Index");
     }
-
 }

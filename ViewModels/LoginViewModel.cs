@@ -10,11 +10,5 @@ namespace Taller2_TP10.ViewModels
         [Required][MinLength(4)][MaxLength(12)] public string Contrasenia {get;set;}
 
         public LoginViewModel(){}
-
-        public LoginViewModel(string nombre, string contrasenia)
-        {
-            Nombre = nombre;
-            Contrasenia = contrasenia;
-        }
     }
 }

@@ -26,7 +26,6 @@ namespace Taller2_TP10.Repositorios
                         var usuario = new Usuario();
                         usuario.Id = Convert.ToInt32(reader["id_usuario"]);
                         usuario.NombreDeUsuario = reader["nombre_de_usuario"].ToString();
-                        usuario.Contrasenia = reader["contrasenia"].ToString();
                         usuario.Rol = (Roles)Convert.ToInt32(reader["rol"]);
                         usuarios.Add(usuario);
                     }
@@ -111,8 +110,6 @@ namespace Taller2_TP10.Repositorios
             }
             return usuario;
         }
-
-
 
     }    
 }
