@@ -43,16 +43,6 @@ public class LoginController : Controller
             // HttpContext.Session.SetString("Contraseña", user.Contrasenia);
             HttpContext.Session.SetString("Rol", usuarioLogueado.Rol.ToString());
             return RedirectToAction("Index","Home");
-        //Existe el usuario?
-        // if (usuarioLogueado!=null) // si el usuario esta logueado, es decir existe
-        // {
-        //     loguearUsuario(usuarioLogueado);
-        //     return RedirectToAction("Index","Home");
-        // }
-        // else//Si el usuario no coincide, es decir no esta logueado, devuelvo directamente al index
-        // {
-        //     return RedirectToAction("Index");        
-        // }
     }
 
     // private void LoguearUsuario(Usuario user)
