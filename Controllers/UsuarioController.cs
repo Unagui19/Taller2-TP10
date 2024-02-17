@@ -20,6 +20,7 @@ public class UsuarioController : Controller
 //Listar Usuarios
     public IActionResult Index()
     {
+        if (!ModelState.IsValid){return RedirectToAction("Index");}
         List<Usuario> usuarios = repoUsuario.ListarUsuarios();
         var VModels = usuarios.Select(usu => new IndexUsuarioViewModel(usu)).ToList();
         return View(VModels);
