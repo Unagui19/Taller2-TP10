@@ -27,6 +27,7 @@ public class LoginController : Controller
     [HttpPost]
     public IActionResult Logueo(LoginViewModel loginUsuario){
 <<<<<<< HEAD
+<<<<<<< HEAD
         Usuario usuarioLogueado = new Usuario();
         List<Usuario> usuarios = repoUsuario.ListarUsuarios();
         usuarioLogueado = usuarios.FirstOrDefault(usu => usu.NombreDeUsuario == loginUsuario.Nombre && usu.Contrasenia == loginUsuario.Contrasenia);
@@ -45,6 +46,8 @@ public class LoginController : Controller
             HttpContext.Session.SetString("Rol", usuarioLogueado.Rol.ToString());
             return RedirectToAction("Index","Home");
 =======
+=======
+>>>>>>> parent of 8065788 (Terminado la parte de sesiones)
         //Existe el usuario?
         var usuarioLogueado = repoUsuario.ListarUsuarios().FirstOrDefault(usu=> usu.NombreDeUsuario == loginUsuario.Nombre);
 
@@ -56,6 +59,9 @@ public class LoginController : Controller
         {
             return RedirectToAction("Index");        
         }
+<<<<<<< HEAD
+>>>>>>> parent of 8065788 (Terminado la parte de sesiones)
+=======
 >>>>>>> parent of 8065788 (Terminado la parte de sesiones)
     }
 
