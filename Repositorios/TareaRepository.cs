@@ -52,39 +52,39 @@ namespace Taller2_TP10.Repositorios
             }
         }
 
-// ● Modificar nombre de la tarea buscada. 
-        public void ModificarTarea(int idTarea, string nombre){
-            string queryString = $@"
-            UPDATE Tarea 
-            SET  nombre = @nombreNuevo
-            WHERE id_tarea = @idTarea"; // string on la consulta deseada
-            using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))//CREO LA VARIABLE DE CONEXION Y LA ESTABLEZCO
-            {
-                var command = new SQLiteCommand(queryString, connection);//paso mi consulta y la conexion 
-                command.Parameters.Add(new SQLiteParameter ("@idTarea", idTarea));
-                connection.Open(); //ABRO LA CONEXION
-                    command.Parameters.Add(new SQLiteParameter("@nombreNuevo", nombre));
-                    command.ExecuteNonQuery();//ejecutar la consulta sin que me devuelva un dato, solo se actualiza
-                    connection.Close();   
-            }
-        }
+// // ● Modificar nombre de la tarea buscada. 
+//         public void ModificarTarea(int idTarea, string nombre){
+//             string queryString = $@"
+//             UPDATE Tarea 
+//             SET  nombre = @nombreNuevo
+//             WHERE id_tarea = @idTarea"; // string on la consulta deseada
+//             using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))//CREO LA VARIABLE DE CONEXION Y LA ESTABLEZCO
+//             {
+//                 var command = new SQLiteCommand(queryString, connection);//paso mi consulta y la conexion 
+//                 command.Parameters.Add(new SQLiteParameter ("@idTarea", idTarea));
+//                 connection.Open(); //ABRO LA CONEXION
+//                     command.Parameters.Add(new SQLiteParameter("@nombreNuevo", nombre));
+//                     command.ExecuteNonQuery();//ejecutar la consulta sin que me devuelva un dato, solo se actualiza
+//                     connection.Close();   
+//             }
+//         }
 
-// ● Modificar estado de la tarea buscada. 
-        public void ModificarTarea(int idTarea, Estado estado){
-            string queryString = $@"
-            UPDATE Tarea 
-            SET  estado = @estado
-            WHERE id_tarea = @idTarea"; // string on la consulta deseada
-            using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))//CREO LA VARIABLE DE CONEXION Y LA ESTABLEZCO
-            {
-                var command = new SQLiteCommand(queryString, connection);//paso mi consulta y la conexion 
-                command.Parameters.Add(new SQLiteParameter ("@idTarea", idTarea));
-                connection.Open(); //ABRO LA CONEXION
-                    command.Parameters.Add(new SQLiteParameter("@estado", estado));
-                    command.ExecuteNonQuery();//ejecutar la consulta sin que me devuelva un dato, solo se actualiza
-                    connection.Close();   
-            }
-        }
+// // ● Modificar estado de la tarea buscada. 
+//         public void ModificarTarea(int idTarea, Estado estado){
+//             string queryString = $@"
+//             UPDATE Tarea 
+//             SET  estado = @estado
+//             WHERE id_tarea = @idTarea"; // string on la consulta deseada
+//             using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))//CREO LA VARIABLE DE CONEXION Y LA ESTABLEZCO
+//             {
+//                 var command = new SQLiteCommand(queryString, connection);//paso mi consulta y la conexion 
+//                 command.Parameters.Add(new SQLiteParameter ("@idTarea", idTarea));
+//                 connection.Open(); //ABRO LA CONEXION
+//                     command.Parameters.Add(new SQLiteParameter("@estado", estado));
+//                     command.ExecuteNonQuery();//ejecutar la consulta sin que me devuelva un dato, solo se actualiza
+//                     connection.Close();   
+//             }
+//         }
 
     // ● Obtener detalles de una tarea por su ID. (devuelve un objeto Tarea)
         public Tarea BuscarTareaPorId(int idTarea)

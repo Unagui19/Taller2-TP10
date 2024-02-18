@@ -11,7 +11,7 @@ namespace Taller2_TP10.ViewModels
         [Required][StringLength(30)]public string Nombre{get;set;}
         [StringLength(200)]public string Descripcion{get;set;}
         [StringLength(30)]public string Color{get;set;}
-        [Required][Range(1,5)]public Estado EstadoTarea{get;set;}
+        [Required]public Estado EstadoTarea{get;set;}
         public int? IdUsuarioAsignado{get;set;}
 
         public CrearTareaViewModel(){}

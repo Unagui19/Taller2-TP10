@@ -6,8 +6,8 @@ namespace Taller2_TP10.Repositorios
     {
          public void CrearTarea(Tarea tarea);
         public void ModificarTarea(int idTarea, Tarea tarea);
-        public void ModificarTarea(int idTarea, Estado estado);
-        public void ModificarTarea(int idTarea, string nombre);
+        // public void ModificarTarea(int idTarea, Estado estado);
+        // public void ModificarTarea(int idTarea, string nombre);
         public Tarea BuscarTareaPorId(int idTarea);
         public List<Tarea> ListarTareasPorUsuario(int idUsuario);
         public List<Tarea> ListarTareasPorTablero(int idTablero);
