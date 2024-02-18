@@ -9,11 +9,11 @@ namespace Taller2_TP10.Controllers;
 public class UsuarioController : Controller
 {
     private readonly ILogger<UsuarioController> _logger;
-    private UsuarioRepository repoUsuario;
+    private readonly IUsuarioRepository _repoUsuario;
 
-    public UsuarioController(ILogger<UsuarioController> logger)
+    public UsuarioController(ILogger<UsuarioController> logger, IUsuarioRepository repoUsuario)
     {
-        repoUsuario = new UsuarioRepository();
+        _repoUsuario = repoUsuario;
         _logger = logger;
     }
 
@@ -21,7 +21,7 @@ public class UsuarioController : Controller
     public IActionResult Index()
     {
         if (!ModelState.IsValid){return RedirectToAction("Index");}
-        List<Usuario> usuarios = repoUsuario.ListarUsuarios();
+        List<Usuario> usuarios = _repoUsuario.ListarUsuarios();
         var VModels = usuarios.Select(usu => new IndexUsuarioViewModel(usu)).ToList();
         return View(VModels);
     }
@@ -34,27 +34,29 @@ public class UsuarioController : Controller
 
     [HttpPost]
     public IActionResult CrearUsuario(CrearUsuarioViewModel nuevoUsu){
+        if (!ModelState.IsValid){return View("Index");}
         var usuario = new Usuario(nuevoUsu);
-        repoUsuario.CrearUsuario(usuario);
+        _repoUsuario.CrearUsuario(usuario);
         return RedirectToAction("Index");
     }
 
 //Modificar usuarios
     [HttpGet]
     public IActionResult ModificarUsuario(int idUsuario){
-        var VModel = new ModificarUsuarioViewModel(repoUsuario.BuscarUsuarioPorId(idUsuario));
+        var VModel = new ModificarUsuarioViewModel(_repoUsuario.BuscarUsuarioPorId(idUsuario));
         return View(VModel);
     }
 
     [HttpPost]
     public IActionResult ModificarUsuario(ModificarUsuarioViewModel modUsu){
+        if (!ModelState.IsValid){return View("Index");}
         var usuario = new Usuario(modUsu);
-        repoUsuario.ModificarUsuario(usuario.Id, usuario);
+        _repoUsuario.ModificarUsuario(usuario.Id, usuario);
         return RedirectToAction("Index");
     }
 
     public IActionResult EliminarUsuario(int idUsuario){
-        repoUsuario.EliminarUsuario(idUsuario);
+        _repoUsuario.EliminarUsuario(idUsuario);
         return RedirectToAction("Index");
     }
 

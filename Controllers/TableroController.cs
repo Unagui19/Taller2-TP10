@@ -9,11 +9,11 @@ namespace Taller2_TP10.Controllers;
 public class TableroController : Controller
 {
     private readonly ILogger<TableroController> _logger;
-    private TableroRepository repoTablero;
+    private readonly ITableroRepository _repoTablero;
 
-    public TableroController(ILogger<TableroController> logger)
+    public TableroController(ILogger<TableroController> logger,ITableroRepository repoTablero)
     {
-        repoTablero = new TableroRepository();
+        _repoTablero = repoTablero;
         _logger = logger;
     }
 
@@ -23,7 +23,7 @@ public class TableroController : Controller
         if(IsOperator(HttpContext)){
             if (IsAdmin(HttpContext))
             {
-                List<Tablero> tableros = repoTablero.ListarTableros();
+                List<Tablero> tableros = _repoTablero.ListarTableros();
                 var VModels = tableros.Select(tab => new IndexTableroViewModel(tab)).ToList();
                 return View(VModels);  
             }
@@ -34,7 +34,7 @@ public class TableroController : Controller
                 {
                     idUsuario = 0;
                 }
-                var tableros1 = repoTablero.ListarTablerosPorUsuario((int)idUsuario);
+                var tableros1 = _repoTablero.ListarTablerosPorUsuario((int)idUsuario);
                 var VModel1 = tableros1.Select(tablero=> new IndexTableroViewModel(tablero)).ToList();
                 return View(VModel1);
             }
@@ -53,28 +53,30 @@ public class TableroController : Controller
 
     [HttpPost]
     public IActionResult CrearTablero(CrearTableroViewModel tab){
+        if (!ModelState.IsValid){return RedirectToAction("Index");}
         Tablero tablero = new Tablero(tab);
-        repoTablero.CrearTablero(tablero);
+        _repoTablero.CrearTablero(tablero);
         return RedirectToAction("Index");
     }
 
 //Modificar tableros
     [HttpGet]
     public IActionResult ModificarTablero(int idTablero){
-        var VModel = new ModificarTableroViewModel(repoTablero.BuscarTableroPorId(idTablero));
+        var VModel = new ModificarTableroViewModel(_repoTablero.BuscarTableroPorId(idTablero));
         return View(VModel);
     }
 
     [HttpPost]
     public IActionResult ModificarTablero(ModificarTableroViewModel modTablero){
+        if (!ModelState.IsValid){return RedirectToAction("Index");}
         var tablero = new Tablero(modTablero);
-        repoTablero.ModificarTablero(tablero.Id,tablero);
+        _repoTablero.ModificarTablero(tablero.Id,tablero);
         return RedirectToAction("Index");
     }
 
 //Eliminar tablero
     public IActionResult EliminarTablero(int idTablero){
-        repoTablero.EliminarTablero(idTablero);
+        _repoTablero.EliminarTablero(idTablero);
         return RedirectToAction("Index");
     }
 

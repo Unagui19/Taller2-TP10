@@ -9,27 +9,20 @@ namespace Taller2_TP10.Controllers;
 public class TareaController : Controller
 {
     private readonly ILogger<TareaController> _logger;
-    private TareaRepository repoTarea;
+    private readonly ITareaRepository _repoTarea;
 
-    public TareaController(ILogger<TareaController> logger)
+    public TareaController(ILogger<TareaController> logger, ITareaRepository repoTarea)
     {
-        repoTarea = new TareaRepository();
+        _repoTarea = repoTarea;
         _logger = logger;
     }
 
 //Listar Usuarios
     public IActionResult Index()
     {
-        if(!usuarioLogueado()){
-            return RedirectToRoute(new { controller = "Login", action = "Index" });
-        }
-        else
-        {
-            List<Tarea> tareas = repoTarea.ListarTareas();
+            List<Tarea> tareas = _repoTarea.ListarTareas();
             var VModel = tareas.Select(tar => new IndexTareaViewModel(tar)).ToList();
             return View(VModel);
-        }
-
     }
 
 //Crear Usuario
@@ -40,39 +33,41 @@ public class TareaController : Controller
 
     [HttpPost]
     public IActionResult CrearTarea(CrearTareaViewModel nuevaTarea){
+        if (!ModelState.IsValid){return RedirectToAction("Index");}
         var tarea = new Tarea(nuevaTarea);
-        repoTarea.CrearTarea(tarea);
+        _repoTarea.CrearTarea(tarea);
         return RedirectToAction("Index");
     }
 
 //Modificar usuarios
     [HttpGet]
     public IActionResult ModificarTarea(int idTarea){
-        var VModel = new ModificarTareaViewModel(repoTarea.BuscarTareaPorId(idTarea));
+        var VModel = new ModificarTareaViewModel(_repoTarea.BuscarTareaPorId(idTarea));
         return View(VModel);
     }
 
     [HttpPost]
     public IActionResult ModificarTarea(ModificarTareaViewModel modTarea){
+        if (!ModelState.IsValid){return RedirectToAction("Index");}
         var tarea = new Tarea(modTarea);
-        repoTarea.ModificarTarea(tarea.Id, tarea);
+        _repoTarea.ModificarTarea(tarea.Id,tarea);
         return RedirectToAction("Index");
     }
 
 //Eliminar tablero
     public IActionResult EliminarTarea(int idTarea){
-        repoTarea.EliminarTarea(idTarea);
+        _repoTarea.EliminarTarea(idTarea);
         return RedirectToAction("Index");
     }
 
-    public bool usuarioLogueado(){
-       if (HttpContext.Session.IsAvailable)
-       {
-            return true;
-       } 
-       else
-       {
-            return false;
-       }
-    }
+    // public bool usuarioLogueado(){
+    //    if (HttpContext.Session.IsAvailable)
+    //    {
+    //         return true;
+    //    } 
+    //    else
+    //    {
+    //         return false;
+    //    }
+    // }
 }
