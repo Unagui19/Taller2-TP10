@@ -7,14 +7,18 @@ namespace Taller2_TP10.Repositorios
 {
     public class TableroRepository : ITableroRepository
     {
-        private string cadenaConexion = "Data Source=Data/Kanban.db;Cache=Shared"; // crea la conexion , es el string que me enlaza a la base de datos
+        private readonly string? _connectionString;
 
+        public TableroRepository(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
 //         ● Crear un nuevo tablero (devuelve un objeto Tablero)
         public void CrearTablero(Tablero tablero){
             string queryString = $@"
             INSERT INTO Tablero (id_usuario_propietario, nombre, descripcion) 
             VALUES (@id_usuario_propietario, @nombre, @descripcion)"; // string on la consulta deseada
-            using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))//CREO LA VARIABLE DE CONEXION Y LA ESTABLEZCO
+            using (SQLiteConnection connection = new SQLiteConnection(_connectionString))//CREO LA VARIABLE DE CONEXION Y LA ESTABLEZCO
             {
                 connection.Open(); //ABRO LA CONEXION
                 var command = new SQLiteCommand(queryString, connection);//paso mi consulta y la conexion 
@@ -31,7 +35,7 @@ namespace Taller2_TP10.Repositorios
             UPDATE Tablero 
             SET id_usuario_propietario = @id_usuario_propietario, nombre = @nombre, descripcion = @descripcion
             WHERE id_usuario_propietario = {idTablero}"; // string on la consulta deseada
-            using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))//CREO LA VARIABLE DE CONEXION Y LA ESTABLEZCO
+            using (SQLiteConnection connection = new SQLiteConnection(_connectionString))//CREO LA VARIABLE DE CONEXION Y LA ESTABLEZCO
             {
                 connection.Open(); //ABRO LA CONEXION
                 var command = new SQLiteCommand(queryString, connection);//paso mi consulta y la conexion 
@@ -46,7 +50,7 @@ namespace Taller2_TP10.Repositorios
         public Tablero BuscarTableroPorId(int idTablero){
             var tablero = new Tablero();
             string queryString = $@"SELECT * FROM Tablero WHERE id_tablero = {idTablero};";
-            using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))
+            using (SQLiteConnection connection = new SQLiteConnection(_connectionString))
             {
                 var command = new SQLiteCommand(queryString, connection);
                 connection.Open();
@@ -68,7 +72,7 @@ namespace Taller2_TP10.Repositorios
         public List<Tablero> ListarTableros(){
             var tableros = new List<Tablero>();
             string queryString = $@"SELECT * FROM Tablero;";
-            using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))
+            using (SQLiteConnection connection = new SQLiteConnection(_connectionString))
             {
                 var command = new SQLiteCommand(queryString, connection);
                 connection.Open();
@@ -94,7 +98,7 @@ namespace Taller2_TP10.Repositorios
         public List<Tablero> ListarTablerosPorUsuario(int IdUsuario){
             var tableros = new List<Tablero>();
             string queryString = $@"SELECT * FROM Tablero WHERE id_usuario_propietario ={IdUsuario};";
-            using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))
+            using (SQLiteConnection connection = new SQLiteConnection(_connectionString))
             {
                 var command = new SQLiteCommand(queryString, connection);
                 connection.Open();
@@ -121,7 +125,7 @@ namespace Taller2_TP10.Repositorios
             string queryString = $@"
             DELETE FROM Tablero
             WHERE id_tablero = {idTablero}"; // string on la consulta deseada
-            using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))//CREO LA VARIABLE DE CONEXION Y LA ESTABLEZCO
+            using (SQLiteConnection connection = new SQLiteConnection(_connectionString))//CREO LA VARIABLE DE CONEXION Y LA ESTABLEZCO
             {
                 connection.Open(); //ABRO LA CONEXION
                 var command = new SQLiteCommand(queryString, connection);//paso mi consulta y la conexion 

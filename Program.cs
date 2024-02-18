@@ -13,9 +13,17 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
+
+//Inyecciones de deependencia Base de datos
+var CadenaDeConexion =
+builder.Configuration.GetConnectionString("SqliteConexion")!.ToString();
+builder.Services.AddSingleton<string>(CadenaDeConexion);
+
+//Inyecciones de deependencia de los repositorios
 builder.Services.AddScoped<IUsuarioRepository,UsuarioRepository>();
 builder.Services.AddScoped<ITableroRepository,TableroRepository>();
 builder.Services.AddScoped<ITareaRepository,TareaRepository>();
+
 
 var app = builder.Build();
 

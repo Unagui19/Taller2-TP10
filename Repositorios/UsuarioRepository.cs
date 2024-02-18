@@ -7,14 +7,19 @@ namespace Taller2_TP10.Repositorios
 {
     public class UsuarioRepository: IUsuarioRepository
     {
-        private string cadenaConexion = "Data Source=Data/Kanban.db;Cache=Shared"; // crea la conexion , es el string que me enlaza a la base de datos
+        //Inyeccion de dependencia para la bse de datos
+        private readonly string? _connectionString;
 
+        public UsuarioRepository(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
 
        // ● Listar todos los usuarios registrados. (devuelve un List de Usuarios) 
         public List<Usuario> ListarUsuarios(){
             string queryString = $"SELECT * FROM Usuario;";
             List<Usuario> usuarios = new List<Usuario>();
-            using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))
+            using (SQLiteConnection connection = new SQLiteConnection(_connectionString))
             {
                 var command = new SQLiteCommand(queryString, connection);
                 connection.Open();
@@ -39,7 +44,7 @@ namespace Taller2_TP10.Repositorios
         //         ● Crear un nuevo usuario. (recibe un objeto Usuario)
         public void CrearUsuario(Usuario usuario){
             string queryString = $"INSERT INTO Usuario (nombre_de_usuario, rol) VALUES (@nombre_de_usuario, @rol)"; // string on la consulta deseada
-            using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))//CREO LA VARIABLE DE CONEXION Y LA ESTABLEZCO
+            using (SQLiteConnection connection = new SQLiteConnection(_connectionString))//CREO LA VARIABLE DE CONEXION Y LA ESTABLEZCO
             {
                 connection.Open(); //ABRO LA CONEXION
                 var command = new SQLiteCommand(queryString, connection);//paso mi consulta y la conexion 
@@ -57,7 +62,7 @@ namespace Taller2_TP10.Repositorios
             UPDATE Usuario 
             SET nombre_de_usuario = @nombre_de_usuario, rol = @rol 
             WHERE id_usuario = {idUsu}"; // string on la consulta deseada
-            using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))//CREO LA VARIABLE DE CONEXION Y LA ESTABLEZCO
+            using (SQLiteConnection connection = new SQLiteConnection(_connectionString))//CREO LA VARIABLE DE CONEXION Y LA ESTABLEZCO
             {
                 connection.Open(); //ABRO LA CONEXION
                 var command = new SQLiteCommand(queryString, connection);//paso mi consulta y la conexion 
@@ -73,7 +78,7 @@ namespace Taller2_TP10.Repositorios
             string queryString = $@"
             DELETE FROM Usuario
             WHERE id_usuario = {idUsu}"; // string on la consulta deseada
-            using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))//CREO LA VARIABLE DE CONEXION Y LA ESTABLEZCO
+            using (SQLiteConnection connection = new SQLiteConnection(_connectionString))//CREO LA VARIABLE DE CONEXION Y LA ESTABLEZCO
             {
                 connection.Open(); //ABRO LA CONEXION
                 var command = new SQLiteCommand(queryString, connection);//paso mi consulta y la conexion 
@@ -88,7 +93,7 @@ namespace Taller2_TP10.Repositorios
         public Usuario BuscarUsuarioPorId(int idUsu){
             var usuario = new Usuario();
             string queryString = $"SELECT * FROM Usuario WHERE id_usuario = @idUsu;";
-            using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))
+            using (SQLiteConnection connection = new SQLiteConnection(_connectionString))
             {
                 var command = new SQLiteCommand(queryString, connection);
                 command.Parameters.Add(new SQLiteParameter ("@idUsu", idUsu));
