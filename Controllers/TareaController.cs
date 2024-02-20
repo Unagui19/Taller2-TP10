@@ -10,10 +10,12 @@ public class TareaController : Controller
 {
     private readonly ILogger<TareaController> _logger;
     private readonly ITareaRepository _repoTarea;
+    private readonly IUsuarioRepository _repoUsuario;
 
-    public TareaController(ILogger<TareaController> logger, ITareaRepository repoTarea)
+    public TareaController(ILogger<TareaController> logger, ITareaRepository repoTarea, IUsuarioRepository repoUsuario)
     {
         _repoTarea = repoTarea;
+        _repoUsuario = repoUsuario;
         _logger = logger;
     }
 
@@ -57,6 +59,23 @@ public class TareaController : Controller
 //Eliminar tablero
     public IActionResult EliminarTarea(int idTarea){
         _repoTarea.EliminarTarea(idTarea);
+        return RedirectToAction("Index");
+    }
+
+//Modificar usuarios
+    [HttpGet]
+    public IActionResult AsignarUsuarioATablero(int idTarea){
+        List<Usuario> usuarios = _repoUsuario.ListarUsuarios();
+        List<int> listaIds = usuarios.Select(usu => usu.Id).ToList();
+        var VModel = new AsignarUsuarioViewModel(_repoTarea.BuscarTareaPorId(idTarea), listaIds);
+        return View(VModel);
+    }
+
+    [HttpPost]
+    public IActionResult AsignarUsuarioATablero(AsignarUsuarioViewModel asignarId, int idUsu){
+        if (!ModelState.IsValid){return RedirectToAction("Index");}
+        var tarea = new Tarea(asignarId);
+        _repoTarea.AsignarUsuarioATarea(asignarId.IdTarea, idUsu);
         return RedirectToAction("Index");
     }
 

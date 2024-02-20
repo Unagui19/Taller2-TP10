@@ -234,7 +234,7 @@ namespace Taller2_TP10.Repositorios
             }            
         }
     // ● Asignar Usuario a Tarea (recibe idUsuario y un idTarea)
-        public void AsignarTareaAUsuario(int idUsuario, int idTarea)
+        public void AsignarUsuarioATarea(int idUsuario, int idTarea)
         {
             string queryString = $@"
             UPDATE Tarea 

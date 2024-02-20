@@ -13,7 +13,7 @@ namespace Taller2_TP10.Repositorios
         public List<Tarea> ListarTareasPorTablero(int idTablero);
         public List<Tarea> ListarTareas();
         public void EliminarTarea(int IdTarea);
-        public void AsignarTareaAUsuario(int idUsuario, int idTarea);
+        public void AsignarUsuarioATarea(int idUsuario, int idTarea);
         public int ContarTareasPorEstado(Estado estado);
     }  
 }
