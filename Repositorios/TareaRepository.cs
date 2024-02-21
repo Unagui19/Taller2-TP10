@@ -236,18 +236,18 @@ namespace Taller2_TP10.Repositorios
     // ● Asignar Usuario a Tarea (recibe idUsuario y un idTarea)
         public void AsignarUsuarioATarea(int idUsuario, int idTarea)
         {
-            string queryString = $@"
+            string queryString = @"
             UPDATE Tarea 
-            SET id_usuario_asignado = @idUsuarioAsignadoNuevo
-            WHERE id_tarea = @idTarea"; // string on la consulta deseada
+            SET id_usuario_asignado = @id_usuario_asignado
+            WHERE id_tarea = @id_tarea"; // string on la consulta deseada
             using (SQLiteConnection connection = new SQLiteConnection(_connectionString))//CREO LA VARIABLE DE CONEXION Y LA ESTABLEZCO
             {
                 var command = new SQLiteCommand(queryString, connection);//paso mi consulta y la conexion 
-                command.Parameters.Add(new SQLiteParameter ("@idTarea", idTarea));
+                command.Parameters.Add(new SQLiteParameter ("@id_tarea", idTarea));
+                command.Parameters.Add(new SQLiteParameter("@id_usuario_asignado", idUsuario));
                 connection.Open(); //ABRO LA CONEXION
-                    command.Parameters.Add(new SQLiteParameter("@idUsuarioAsignadoNuevo", idUsuario));
-                    command.ExecuteNonQuery();//ejecutar la consulta sin que me devuelva un dato, solo se actualiza
-                    connection.Close();   
+                int eso =command.ExecuteNonQuery();//ejecutar la consulta sin que me devuelva un dato, solo se actualiza
+                connection.Close();   
             }
         }
 

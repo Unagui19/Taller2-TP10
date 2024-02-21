@@ -28,10 +28,10 @@
                 <td>@tarea.Descripcion</td>
                 <td>@tarea.Color</td>
                 <td>@tarea.IdUsuarioAsignado</td>
-                <td><a asp-controller="Tarea" asp-action="ModificarTarea" asp-route-idTarea="@tarea.Id">Modificar</a>
-                <a asp-controller="Tarea" asp-action="EliminarTarea" asp-route-idTarea="@tarea.Id" onclick="return confirm('¿Seguro que quieres eliminar esta tarea?')">Eliminar</a>
+                <td><a asp-controller="Tarea" asp-action="ModificarTarea" asp-route-idTarea="@tarea.Id">Modificar</a></td>
+                <td><a asp-controller="Tarea" asp-action="EliminarTarea" asp-route-idTarea="@tarea.Id" onclick="return confirm('¿Seguro que quieres eliminar esta tarea?')">Eliminar</a>
                 </td>
-                <td><a asp-controller="Tarea" asp-action="AsignarUsuarioATablero" asp-route-idTarea="@tarea.Id">Asignar Usuario</a></td>
+                <td><a asp-controller="Tarea" asp-action="AsignarUsuarioATarea" asp-route-idTarea="@tarea.Id">Asignar usuario a tarea</a></td>
             </tr>
         }
     </tbody>

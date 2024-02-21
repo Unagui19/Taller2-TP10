@@ -49,10 +49,5 @@ namespace Taller2_TP10.Models
             IdUsuarioAsignado = modTarea.IdUsuarioAsignado;
         }
 
-        // public Tarea(AsignarUsuarioViewModel asignarId){
-        //     Id = asignarId.IdTarea;
-        //     IdTablero = asignarId.IdTablero;
-        //     Nombre = asignarId.NombreTarea;
-        // }
     }
 }

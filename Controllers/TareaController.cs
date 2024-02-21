@@ -64,18 +64,19 @@ public class TareaController : Controller
 
 //Modificar usuarios
     [HttpGet]
-    public IActionResult AsignarUsuarioATablero(int idTarea){
+    public IActionResult AsignarUsuarioATarea(int idTarea){
         List<Usuario> usuarios = _repoUsuario.ListarUsuarios();
-        List<int> listaIds = usuarios.Select(usu => usu.Id).ToList();
-        var VModel = new AsignarUsuarioViewModel(_repoTarea.BuscarTareaPorId(idTarea), listaIds);
+        // var VModel = new AsignarUsuarioATareaViewModel(idTarea, usuarios);
+        var VModel = new AsignarUsuarioATareaViewModel(_repoTarea.BuscarTareaPorId(idTarea), usuarios);
         return View(VModel);
     }
 
     [HttpPost]
-    public IActionResult AsignarUsuarioATablero(AsignarUsuarioViewModel asignarId, int idUsu){
-        if (!ModelState.IsValid){return RedirectToAction("Index");}
-        var tarea = new Tarea(asignarId);
-        _repoTarea.AsignarUsuarioATarea(asignarId.IdTarea, idUsu);
+    public IActionResult AsignarUsuarioATarea(AsignarUsuarioATareaViewModel asignarId){
+        // if (!ModelState.IsValid){return RedirectToAction("Index");}
+        var usuario = _repoUsuario.BuscarUsuarioPorId(asignarId.IdUsuarioAsignado);
+        // var tarea = new Tarea(asignarId);
+        _repoTarea.AsignarUsuarioATarea(usuario.Id, asignarId.IdTarea);
         return RedirectToAction("Index");
     }
 
